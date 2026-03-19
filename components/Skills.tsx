@@ -5,31 +5,37 @@ const skillGroups = [
   {
     category: "Frontend",
     icon: "⚡",
+    color: "#facc15",
     skills: ["React", "Next.js", "Flutter", "Tailwind CSS", "Bootstrap 5", "CSS3", "HTML5"],
   },
   {
     category: "Backend",
     icon: "⚙️",
+    color: "#34d399",
     skills: ["ASP.NET", "Django", "PHP", "REST API", "Node.js"],
   },
   {
     category: "Database",
     icon: "🗄️",
+    color: "#60a5fa",
     skills: ["MySQL", "PostgreSQL"],
   },
   {
-    category: "DevOps & Deployment",
+    category: "DevOps & Deploy",
     icon: "🚀",
+    color: "#f472b6",
     skills: ["Hostinger", "Vercel", "Codemagic CI/CD", "Git", "GitHub"],
   },
   {
     category: "Mobile",
     icon: "📱",
+    color: "#a78bfa",
     skills: ["Flutter", "Dart", "Mobile UI/UX", "Push Notifications", "QR Systems"],
   },
   {
     category: "Specialties",
     icon: "🎯",
+    color: "var(--gold)",
     skills: ["Face Recognition", "SMS Integration", "Kiosk Systems", "Gamified UX", "Hardware Integration"],
   },
 ];
@@ -39,68 +45,87 @@ export default function Skills() {
 
   useEffect(() => {
     const observer = new IntersectionObserver(
-      (entries) => {
+      (entries) =>
         entries.forEach((e) => {
-          if (e.isIntersecting) e.target.classList.replace("aos-hidden", "aos-visible");
-        });
-      },
-      { threshold: 0.1 }
+          if (e.isIntersecting) e.target.classList.add("visible");
+        }),
+      { threshold: 0.08 }
     );
-    ref.current?.querySelectorAll(".aos-hidden").forEach((el) => observer.observe(el));
+    ref.current?.querySelectorAll(".reveal").forEach((el) => observer.observe(el));
     return () => observer.disconnect();
   }, []);
 
   return (
     <section
       id="skills"
-      className="py-28 relative"
-      style={{ background: "rgba(13,18,32,0.6)" }}
+      className="py-32 relative"
       ref={ref}
+      style={{ background: "var(--bg2)" }}
     >
-      {/* Section divider top */}
-      <div
-        className="absolute top-0 left-0 right-0 h-px"
-        style={{ background: "linear-gradient(90deg, transparent, rgba(34,211,238,0.2), transparent)" }}
-      />
+      <div className="gold-rule absolute top-0 left-0 right-0" />
 
-      <div className="max-w-6xl mx-auto px-6">
-        <div className="text-center mb-16">
+      <div className="max-w-7xl mx-auto px-8">
+        {/* Header */}
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-16">
+          <div>
+            <p className="section-label mb-4 reveal">02 / Skills</p>
+            <h2
+              className="text-4xl md:text-5xl font-bold reveal"
+              style={{
+                fontFamily: "'Playfair Display', serif",
+                color: "var(--white)",
+                lineHeight: 1.15,
+              }}
+            >
+              Tech I Work{" "}
+              <em style={{ color: "var(--gold)", fontStyle: "italic" }}>With</em>
+            </h2>
+          </div>
           <p
-            className="text-cyan-400 text-xs tracking-widest uppercase mb-3 aos-hidden"
-            style={{ fontFamily: "'JetBrains Mono', monospace" }}
+            className="text-sm max-w-xs reveal"
+            style={{ color: "var(--text-muted)", fontFamily: "'Outfit', sans-serif", fontWeight: 300 }}
           >
-            02 / Skills
+            A curated set of tools and technologies I use to bring ideas to life across web, mobile, and backend.
           </p>
-          <h2
-            className="text-3xl md:text-4xl font-bold aos-hidden"
-            style={{ fontFamily: "'Syne', sans-serif" }}
-          >
-            Tech I Work With
-          </h2>
         </div>
 
+        {/* Grid */}
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
           {skillGroups.map((group, i) => (
             <div
               key={group.category}
-              className="card-hover rounded-xl p-6 aos-hidden"
-              style={{
-                background: "rgba(13,18,32,0.8)",
-                transitionDelay: `${i * 0.08}s`,
-              }}
+              className="card p-6 reveal"
+              style={{ transitionDelay: `${i * 0.07}s` }}
             >
-              <div className="flex items-center gap-3 mb-4">
-                <span className="text-2xl">{group.icon}</span>
-                <h3
-                  className="font-semibold text-slate-200"
-                  style={{ fontFamily: "'Syne', sans-serif" }}
+              {/* Category header */}
+              <div className="flex items-center gap-3 mb-5">
+                <div
+                  className="w-10 h-10 rounded-xl flex items-center justify-center text-lg"
+                  style={{ background: "var(--bg)", border: "1px solid var(--border)" }}
                 >
-                  {group.category}
-                </h3>
+                  {group.icon}
+                </div>
+                <div>
+                  <h3
+                    className="font-semibold text-sm"
+                    style={{
+                      fontFamily: "'Outfit', sans-serif",
+                      color: "var(--text)",
+                    }}
+                  >
+                    {group.category}
+                  </h3>
+                  <div
+                    className="h-0.5 w-6 rounded-full mt-1"
+                    style={{ background: group.color }}
+                  />
+                </div>
               </div>
+
+              {/* Skills */}
               <div className="flex flex-wrap gap-2">
                 {group.skills.map((skill) => (
-                  <span key={skill} className="tag">
+                  <span key={skill} className="skill-pill">
                     {skill}
                   </span>
                 ))}
@@ -110,11 +135,7 @@ export default function Skills() {
         </div>
       </div>
 
-      {/* Section divider bottom */}
-      <div
-        className="absolute bottom-0 left-0 right-0 h-px"
-        style={{ background: "linear-gradient(90deg, transparent, rgba(34,211,238,0.2), transparent)" }}
-      />
+      <div className="gold-rule absolute bottom-0 left-0 right-0" />
     </section>
   );
 }

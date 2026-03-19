@@ -1,123 +1,116 @@
 "use client";
 import { useEffect, useRef } from "react";
 
+const facts = [
+  { label: "Location", value: "Philippines 🇵🇭" },
+  { label: "Focus", value: "Web & Mobile" },
+  { label: "Deployment", value: "Hostinger, Vercel" },
+  { label: "CI/CD", value: "Codemagic" },
+];
+
 export default function About() {
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((e) => {
-          if (e.isIntersecting) e.target.classList.replace("aos-hidden", "aos-visible");
-        });
-      },
-      { threshold: 0.15 }
+      (entries) => entries.forEach((e) => { if (e.isIntersecting) e.target.classList.add("visible"); }),
+      { threshold: 0.12 }
     );
-    ref.current?.querySelectorAll(".aos-hidden").forEach((el) => observer.observe(el));
+    ref.current?.querySelectorAll(".reveal, .reveal-left").forEach((el) => observer.observe(el));
     return () => observer.disconnect();
   }, []);
 
   return (
-    <section id="about" className="py-28 relative" ref={ref}>
-      <div className="max-w-6xl mx-auto px-6">
-        <div className="grid md:grid-cols-2 gap-16 items-center">
-          {/* Left: visual */}
-          <div className="aos-hidden flex justify-center md:justify-start">
-            <div className="relative">
-              {/* Avatar placeholder */}
-              <div
-                className="w-64 h-64 rounded-2xl flex items-center justify-center text-7xl relative overflow-hidden"
-                style={{
-                  background: "linear-gradient(135deg, #0d1220 0%, #111827 100%)",
-                  border: "1px solid rgba(34,211,238,0.2)",
-                  boxShadow: "0 0 40px rgba(34,211,238,0.07)",
-                }}
+    <section id="about" className="py-16 md:py-32 relative" ref={ref}>
+      <div className="gold-rule absolute top-0 left-0 right-0" />
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="grid lg:grid-cols-2 gap-10 md:gap-20 items-center">
+
+          {/* Left: profile card */}
+          <div className="reveal-left order-2 lg:order-1">
+            <div className="relative max-w-sm mx-auto lg:mx-0">
+              <div className="rounded-2xl p-6 sm:p-8 relative overflow-hidden"
+                style={{ background: "var(--surface)", border: "1px solid var(--border)" }}
               >
-                {/* Code decoration */}
-                <div
-                  className="absolute inset-0 p-4 opacity-10 overflow-hidden"
-                  style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "0.5rem", color: "#22d3ee" }}
+                <div className="absolute top-0 left-0 right-0 h-0.5"
+                  style={{ background: "linear-gradient(90deg, var(--gold), transparent)" }}
+                />
+                <div className="text-6xl sm:text-7xl mb-5">👨‍💻</div>
+                <div className="text-xl sm:text-2xl font-bold mb-1"
+                  style={{ fontFamily: "'Playfair Display', serif", color: "var(--white)" }}
                 >
-                  {`const dev = {\n  name: "BJ",\n  role: "FullStack",\n  passion: "build"\n}`}
+                  Basilio Joseph Lee
                 </div>
-                <div className="relative z-10 text-6xl">👨‍💻</div>
+                <div className="text-xs sm:text-sm mb-5"
+                  style={{ color: "var(--gold)", fontFamily: "'Space Mono', monospace" }}
+                >
+                  Full-Stack & Mobile Developer
+                </div>
+                <div className="h-px w-full mb-5" style={{ background: "var(--border)" }} />
+                <div className="grid grid-cols-2 gap-2 sm:gap-3">
+                  {facts.map((f) => (
+                    <div key={f.label} className="p-2.5 sm:p-3 rounded-xl"
+                      style={{ background: "var(--bg2)", border: "1px solid var(--border)" }}
+                    >
+                      <div className="section-label mb-1" style={{ fontSize: "0.55rem" }}>{f.label}</div>
+                      <div className="text-xs sm:text-sm font-medium"
+                        style={{ color: "var(--text)", fontFamily: "'Outfit', sans-serif" }}
+                      >{f.value}</div>
+                    </div>
+                  ))}
+                </div>
               </div>
-              {/* Floating badge */}
-              <div
-                className="absolute -bottom-4 -right-4 px-3 py-2 rounded-xl"
-                style={{
-                  background: "rgba(34,211,238,0.1)",
-                  border: "1px solid rgba(34,211,238,0.25)",
-                  backdropFilter: "blur(8px)",
-                  fontFamily: "'JetBrains Mono', monospace",
-                  fontSize: "0.65rem",
-                  color: "#22d3ee",
-                }}
+              <div className="absolute -bottom-4 -right-4 sm:-bottom-5 sm:-right-5 px-3 py-2 sm:px-4 sm:py-3 rounded-xl text-xs font-bold"
+                style={{ background: "var(--gold)", color: "#09090b", fontFamily: "'Space Mono', monospace", boxShadow: "0 8px 30px rgba(212,175,55,0.3)" }}
               >
                 $ npm run dev ✓
               </div>
+              <div className="absolute -top-4 -left-4 sm:-top-5 sm:-left-5 w-16 h-16 sm:w-20 sm:h-20 rounded-full border opacity-20 pointer-events-none"
+                style={{ borderColor: "var(--gold)" }}
+              />
             </div>
           </div>
 
           {/* Right: text */}
-          <div>
-            <p
-              className="text-cyan-400 text-xs tracking-widest uppercase mb-3 aos-hidden"
-              style={{ fontFamily: "'JetBrains Mono', monospace" }}
+          <div className="order-1 lg:order-2">
+            <p className="section-label mb-3 reveal">01 / About Me</p>
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-6 reveal"
+              style={{ fontFamily: "'Playfair Display', serif", color: "var(--white)", lineHeight: 1.15 }}
             >
-              01 / About Me
-            </p>
-            <h2
-              className="text-3xl md:text-4xl font-bold mb-6 section-title aos-hidden"
-              style={{ fontFamily: "'Syne', sans-serif" }}
-            >
-              Crafting Digital Experiences
+              Crafting Digital{" "}
+              <em style={{ color: "var(--gold)", fontStyle: "italic" }}>Experiences</em>
             </h2>
-            <div className="space-y-4 text-slate-400 leading-relaxed">
-              <p className="aos-hidden">
-                I'm a passionate full-stack and mobile developer who loves turning ideas into
-                real, working products. My experience spans the entire software stack — from
-                interactive UIs built with <span className="text-slate-200">React and Next.js</span> to
-                cross-platform mobile apps crafted in <span className="text-slate-200">Flutter</span>.
+            <div className="space-y-4 reveal" style={{ color: "var(--text-secondary)", fontWeight: 300, lineHeight: 1.8 }}>
+              <p className="text-sm sm:text-base">
+                I'm a passionate full-stack and mobile developer who loves turning ideas into real, working products.
+                My experience spans the entire software stack — from interactive UIs built with{" "}
+                <span style={{ color: "var(--text)", fontWeight: 500 }}>React and Next.js</span> to
+                cross-platform mobile apps crafted in <span style={{ color: "var(--text)", fontWeight: 500 }}>Flutter</span>.
               </p>
-              <p className="aos-hidden" style={{ transitionDelay: "0.1s" }}>
-                On the back end, I work across <span className="text-slate-200">ASP.NET, Django, PHP</span>,
-                and REST APIs, connecting everything to <span className="text-slate-200">MySQL and PostgreSQL</span> databases.
-                I've deployed production systems on <span className="text-slate-200">Hostinger</span> and
-                set up automated pipelines with <span className="text-slate-200">Codemagic CI/CD</span>.
+              <p className="text-sm sm:text-base">
+                On the back end, I work across{" "}
+                <span style={{ color: "var(--text)", fontWeight: 500 }}>ASP.NET, Django, PHP</span>,
+                and REST APIs, connecting everything to{" "}
+                <span style={{ color: "var(--text)", fontWeight: 500 }}>MySQL and PostgreSQL</span>{" "}
+                databases. I've deployed production systems on{" "}
+                <span style={{ color: "var(--text)", fontWeight: 500 }}>Hostinger</span> and set up
+                automated pipelines with <span style={{ color: "var(--text)", fontWeight: 500 }}>Codemagic CI/CD</span>.
               </p>
-              <p className="aos-hidden" style={{ transitionDelay: "0.2s" }}>
-                My capstone project — a full classroom management platform with face recognition,
-                SMS notifications, a gamified quiz system, and kiosk hardware — reflects my drive
-                to build systems that solve real problems at scale.
+              <p className="text-sm sm:text-base">
+                During my internship at <span style={{ color: "var(--text)", fontWeight: 500 }}>BMware Business Solutions Enterprises Inc.</span>,
+                I developed and published a mobile app to the{" "}
+                <span style={{ color: "var(--text)", fontWeight: 500 }}>Google Play Store</span>,
+                built a Flutter-based mobile game, and worked on cross-platform production apps —
+                gaining hands-on experience with state management, REST API integration, and real client-facing features.
               </p>
             </div>
-
-            {/* Quick facts */}
-            <div
-              className="grid grid-cols-2 gap-4 mt-8 aos-hidden"
-              style={{ transitionDelay: "0.3s" }}
-            >
-              {[
-                { label: "Location", value: "Philippines" },
-                { label: "Focus", value: "Web & Mobile" },
-                { label: "Deployment", value: "Hostinger, Vercel" },
-                { label: "CI/CD", value: "Codemagic" },
-              ].map((f) => (
-                <div
-                  key={f.label}
-                  className="p-3 rounded-lg"
-                  style={{ background: "rgba(34,211,238,0.04)", border: "1px solid rgba(34,211,238,0.1)" }}
-                >
-                  <div
-                    className="text-xs text-cyan-400 mb-0.5"
-                    style={{ fontFamily: "'JetBrains Mono', monospace" }}
-                  >
-                    {f.label}
-                  </div>
-                  <div className="text-sm text-slate-200 font-medium">{f.value}</div>
-                </div>
-              ))}
+            <div className="mt-8 reveal">
+              <button
+                onClick={() => document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" })}
+                className="btn-primary"
+              >
+                Get in Touch →
+              </button>
             </div>
           </div>
         </div>
